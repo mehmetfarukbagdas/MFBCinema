@@ -1,0 +1,94 @@
+/* Hero carousel behaviour and image fallbacks */
+
+.hero-image {
+  transition:
+    opacity 0.28s ease,
+    filter 0.28s ease;
+}
+.hero-bottom button:focus-visible,
+.hero-index button:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 4px;
+}
+.hero-bottom button:hover {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.admin-poster-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  margin: -0.2rem 0 1rem;
+  border: 1px solid var(--line);
+  background: #0b0b0e;
+}
+.admin-poster-preview img {
+  width: 72px;
+  height: 108px;
+  object-fit: cover;
+  background: #19191f;
+}
+.admin-poster-preview span,
+.admin-upload-status {
+  font-size: 0.78rem;
+  color: #c6c1c5;
+  line-height: 1.5;
+}
+.admin-upload-status {
+  padding: 0.7rem 0.8rem;
+  border-left: 2px solid var(--coral);
+  background: #e5093b12;
+}
+.admin-form input[type="file"] {
+  padding: 0.6rem;
+  font-size: 0.75rem;
+}
+.hero-image[data-load-error="true"] {
+  display: none;
+}
+.hero-image {
+  z-index: 0;
+}
+.hero-shade {
+  z-index: 1;
+}
+.hero-content,
+.hero-index,
+.hero-bottom {
+  z-index: 2;
+}
+.poster-img .poster-hover,
+.poster-img .poster-year {
+  pointer-events: none;
+}
+.poster:focus-visible,
+.series-card:focus-visible,
+.collection-tile:focus-visible,
+.editorial-feature:focus-visible,
+.account-action:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 3px;
+}
+
+.admin-table-poster {
+  display: block;
+  width: 42px;
+  height: 62px;
+  object-fit: cover;
+  background: linear-gradient(145deg, #302832, #09090c);
+  border: 1px solid var(--line);
+}
+.editorial-feature > img,
+.collection-tile > img {
+  background: radial-gradient(ellipse at 70% 20%, #54252b, #151319 65%, #08080b);
+}
+.detail-modal {
+  background: radial-gradient(ellipse at 20% 0%, #27202a, #101014 60%);
+}
+.detail-backdrop {
+  background: linear-gradient(145deg, #302832, #09090c);
+}

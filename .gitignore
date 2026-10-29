@@ -1,0 +1,29 @@
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+.vite/
+.vercel/
+bin/
+obj/
+*.tsbuildinfo
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# IDE and OS files
+.vs/
+.idea/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+
+# Temporary backups
+*.bak
+*.backup*
+*.before-*
+*.auto-fix-*
+encoding-backup-*/

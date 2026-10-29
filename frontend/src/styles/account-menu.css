@@ -1,0 +1,246 @@
+/* Account menu and member dashboard */
+
+.top-actions {
+  position: relative;
+}
+.account-dropdown {
+  position: absolute;
+  z-index: 120;
+  right: 90px;
+  top: calc(100% + 12px);
+  width: min(310px, calc(100vw - 28px));
+  padding: 8px;
+  background: #111116;
+  border: 1px solid #34343c;
+  box-shadow: 0 20px 60px #000a;
+  border-radius: 10px;
+}
+.account-dropdown-heading {
+  padding: 14px 13px 16px;
+  border-bottom: 1px solid #ffffff18;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow: hidden;
+}
+.account-dropdown-heading strong {
+  font-size: 14px;
+  color: #fff;
+}
+.account-dropdown-heading span {
+  font-size: 12px;
+  color: #aaa;
+  overflow-wrap: anywhere;
+}
+.account-dropdown > button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px;
+  border: 0;
+  background: transparent;
+  color: #ddd;
+  text-align: left;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+}
+.account-dropdown > button:hover,
+.account-dropdown > button:focus-visible {
+  background: #ffffff10;
+  color: #fff;
+  outline: 1px solid #e5093b66;
+}
+.account-panel-modal {
+  position: relative;
+  width: min(620px, 100%);
+  max-height: 88svh;
+  overflow: auto;
+  background: #111116;
+  border: 1px solid #383840;
+  padding: 36px clamp(22px, 5vw, 48px);
+  color: #f5f5f7;
+  box-shadow: 0 24px 80px #000b;
+}
+.account-panel-modal h2 {
+  font-size: clamp(30px, 5vw, 44px);
+  margin: 8px 0 26px;
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+.account-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.account-panel-content label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #bdbdc5;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.account-panel-content input {
+  width: 100%;
+  background: #19191f;
+  border: 1px solid #3c3c45;
+  color: #fff;
+  padding: 14px;
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  outline: none;
+}
+.account-panel-content input:focus {
+  border-color: #e5093b;
+}
+.account-panel-content input[readonly] {
+  opacity: 0.7;
+}
+.profile-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #e5093b;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+}
+.account-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.account-stat-grid > div {
+  padding: 16px 12px;
+  background: #1a1a20;
+  border: 1px solid #ffffff12;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.account-stat-grid strong {
+  font-size: 26px;
+}
+.account-stat-grid span {
+  font-size: 11px;
+  color: #aaa;
+}
+.account-panel-content h3 {
+  font-size: 14px;
+  margin: 12px 0 0;
+}
+.account-title-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.account-title-list button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding: 8px;
+  background: #18181d;
+  border: 1px solid #ffffff12;
+  color: #eee;
+  cursor: pointer;
+}
+.account-title-list img {
+  width: 40px;
+  height: 58px;
+  object-fit: cover;
+  background: #222;
+}
+.account-title-list span {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+}
+.account-title-list small,
+.account-empty {
+  font-size: 12px;
+  color: #aaa;
+}
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 15px 0;
+  border-bottom: 1px solid #ffffff18;
+}
+.settings-row strong {
+  font-size: 14px;
+}
+.settings-row p,
+.settings-row small {
+  display: block;
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #aaa;
+}
+.settings-row .btn-secondary {
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .account-dropdown {
+    right: 0;
+    top: calc(100% + 8px);
+  }
+  .account-panel-modal {
+    padding: 30px 20px;
+  }
+  .account-stat-grid {
+    grid-template-columns: 1fr;
+  }
+  .settings-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .settings-row .btn-secondary {
+    width: 100%;
+  }
+}
+.profile-avatar {
+  overflow: hidden;
+}
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.account-panel-content label small {
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #999;
+}
+.settings-inline-label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 12px;
+  color: #bbb;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+.settings-inline-label input {
+  margin-top: 2px;
+}
+.settings-danger {
+  border-top: 1px solid #6b1b2b;
+  margin-top: 12px;
+}
+.settings-danger strong {
+  color: #ff849c;
+}

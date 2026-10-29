@@ -1,0 +1,195 @@
+/* Mobile hero */
+
+@media (max-width: 700px) {
+  #home > .hero {
+    height: clamp(580px, calc(100svh - 72px), 720px);
+    min-height: 580px;
+    max-height: 720px;
+    background: #08080b;
+  }
+
+  #home > .hero .hero-image {
+    inset: 0 0 auto 0;
+    height: 66%;
+    object-position: var(--hero-x, 50%) 30%;
+    opacity: 1;
+    filter: saturate(1.05) contrast(1.04);
+    animation: heroImageIn 0.6s ease both;
+  }
+
+  #home > .hero .hero-shade {
+    background:
+      linear-gradient(180deg, rgba(8, 8, 11, 0.55) 0%, rgba(8, 8, 11, 0) 16%),
+      linear-gradient(
+        0deg,
+        #08080b 0%,
+        #08080b 46%,
+        rgba(8, 8, 11, 0.88) 54%,
+        rgba(8, 8, 11, 0.5) 64%,
+        rgba(8, 8, 11, 0.12) 78%,
+        rgba(8, 8, 11, 0) 100%
+      );
+  }
+
+  #home > .hero .hero-content {
+    top: auto;
+    bottom: 84px;
+    left: 22px;
+    right: 22px;
+    max-width: none;
+  }
+
+  #home > .hero .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  #home > .hero h1 {
+    font-size: clamp(32px, 10.8vw, 54px);
+    line-height: 1.04;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+    text-wrap: balance;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  #home > .hero .hero-desc {
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #d6d4d8;
+    margin-bottom: 14px;
+    text-wrap: pretty;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  #home > .hero .meta {
+    font-size: 11px;
+    gap: 8px;
+    row-gap: 6px;
+  }
+
+  /* Action buttons fill the full row */
+  #home > .hero .hero-actions {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  #home > .hero .hero-actions .btn-primary,
+  #home > .hero .hero-actions .btn-secondary {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+
+  #home > .hero .hero-tagline {
+    display: none;
+  }
+
+  #home > .hero .hero-index {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    position: absolute;
+    top: auto;
+    left: 22px;
+    right: auto;
+    bottom: 28px;
+  }
+  #home > .hero .hero-index button {
+    font-size: 0;
+    width: 28px;
+    height: 32px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+  }
+  #home > .hero .hero-index button::before {
+    content: "";
+    display: block;
+    height: 3px;
+    margin-top: 14px;
+    background: rgba(255, 255, 255, 0.28);
+    transition: background 0.2s;
+  }
+  #home > .hero .hero-index .index-active {
+    padding: 0;
+    border: 0;
+  }
+  #home > .hero .hero-index .index-active::before {
+    background: var(--red);
+  }
+
+  #home > .hero .hero-bottom {
+    left: auto;
+    right: 22px;
+    bottom: 22px;
+    gap: 10px;
+  }
+  #home > .hero .hero-bottom > span,
+  #home > .hero .hero-bottom .progress {
+    display: none;
+  }
+  #home > .hero .hero-bottom button {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    background: rgba(8, 8, 11, 0.55);
+    backdrop-filter: blur(6px);
+  }
+}
+
+@media (max-width: 360px) {
+  #home > .hero .hero-content {
+    left: 16px;
+    right: 16px;
+  }
+  #home > .hero .hero-index {
+    left: 16px;
+  }
+  #home > .hero .hero-bottom {
+    right: 16px;
+  }
+  #home > .hero .hero-actions .btn-primary,
+  #home > .hero .hero-actions .btn-secondary {
+    white-space: normal;
+    line-height: 1.2;
+    font-size: 11px;
+  }
+}
+
+@keyframes heroImageIn {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 700px) {
+  #home > .hero .hero-image {
+    top: calc(var(--hero-lift, 10%) * -1);
+    bottom: auto;
+    height: 66%;
+  }
+  #home > .hero .hero-shade {
+    background:
+      linear-gradient(180deg, rgba(8, 8, 11, 0.5) 0%, rgba(8, 8, 11, 0) 14%),
+      linear-gradient(
+        0deg,
+        #08080b 0%,
+        #08080b 44%,
+        rgba(8, 8, 11, 0.86) 52%,
+        rgba(8, 8, 11, 0.45) 61%,
+        rgba(8, 8, 11, 0.1) 74%,
+        rgba(8, 8, 11, 0) 100%
+      );
+  }
+}

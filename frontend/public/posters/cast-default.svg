@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 440" role="img" aria-label="Cast profile unavailable">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22242c"/><stop offset="1" stop-color="#08090d"/></linearGradient></defs>
+  <rect width="320" height="440" fill="url(#bg)"/>
+  <circle cx="160" cy="154" r="54" fill="#343742"/>
+  <path d="M64 354c4-66 42-108 96-108s92 42 96 108" fill="#343742"/>
+  <path d="M0 392h320" stroke="#e5093b" stroke-width="3" opacity=".85"/>
+  <text x="160" y="420" fill="#aeb0b9" font-family="Arial,sans-serif" font-size="13" text-anchor="middle" letter-spacing="2">MFB CINEMA</text>
+</svg>

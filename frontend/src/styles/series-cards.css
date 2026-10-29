@@ -1,0 +1,71 @@
+/* Series cards */
+
+.series-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.series-card {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  align-items: stretch;
+  overflow: hidden;
+}
+.series-card > .series-art {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  padding: 0;
+  display: block;
+}
+.series-card > .series-art > img.series-poster-fallback {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  padding: 0;
+  filter: none;
+  background: #08080b !important;
+}
+.series-card > div:not(.series-art) {
+  padding: 22px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.series-card > div:not(.series-art) p {
+  min-height: 0;
+  margin: 0 0 4px;
+  font-size: 12px;
+}
+.series-card > div:not(.series-art) > span {
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+@media (max-width: 700px) {
+  .series-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .series-card {
+    grid-template-columns: 104px minmax(0, 1fr);
+  }
+  .series-card > div:not(.series-art) {
+    padding: 14px;
+    justify-content: flex-start;
+  }
+  .series-card > div:not(.series-art) h3 {
+    font-size: 19px;
+    margin: 6px 0;
+  }
+  .series-card > div:not(.series-art) p {
+    font-size: 11.5px;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+}

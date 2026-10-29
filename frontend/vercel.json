@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/turler/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/movies",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/series",
+      "destination": "/index.html"
+    }
+  ]
+}

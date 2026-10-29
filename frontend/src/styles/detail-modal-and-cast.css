@@ -1,0 +1,326 @@
+/* Detail modal, actor profiles and cast cards */
+
+.detail-modal {
+  width: min(1080px, 94vw);
+}
+.detail-content h2 {
+  overflow-wrap: anywhere;
+}
+.detail-content .meta {
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+.detail-content .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.detail-content .hero-actions button {
+  min-height: 42px;
+}
+.detail-content button:focus-visible,
+.review-label textarea:focus-visible,
+.review-stars button:focus-visible {
+  outline: 2px solid #f05b79;
+  outline-offset: 3px;
+}
+.detail-content .trailer-frame {
+  overflow: hidden;
+  border-radius: 2px;
+}
+.detail-content .trailer-status {
+  min-height: 130px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 20px;
+  color: #c9c9d0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.detail-content .actor-bio {
+  overflow-wrap: anywhere;
+}
+.detail-content .review-label textarea {
+  box-sizing: border-box;
+}
+.detail-content .similar-grid > button {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.detail-content .similar-grid > button > span {
+  flex: 1;
+}
+@media (max-width: 700px) {
+  .modal-backdrop {
+    align-items: flex-start;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  .detail-modal {
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100svh - 20px);
+    grid-template-columns: minmax(0, 1fr);
+    overflow: auto;
+  }
+  .detail-backdrop {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 2/3;
+    object-fit: contain;
+    object-position: center;
+    background: #09090d;
+    border-right: 0;
+    border-bottom: 1px solid #ffffff12;
+  }
+  .detail-content {
+    max-height: none;
+    overflow: visible;
+    padding: 22px 16px 24px;
+  }
+  .detail-content h2 {
+    font-size: clamp(26px, 7vw, 36px);
+    line-height: 1.1;
+  }
+  .detail-content .meta {
+    font-size: 10px;
+    gap: 7px;
+  }
+  .detail-content .hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .detail-content .hero-actions button {
+    justify-content: center;
+    min-width: 0;
+    padding: 10px 8px;
+    font-size: 10px;
+  }
+  .detail-content .trailer-frame {
+    padding: 5px;
+  }
+  .detail-content .cast-chip {
+    flex: 1 1 calc(50% - 8px);
+    max-width: none;
+    min-width: 0;
+  }
+  .detail-content .similar-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .detail-content .similar-grid img {
+    max-height: 260px;
+  }
+  .detail-content .similar-grid strong {
+    font-size: 10px;
+  }
+  .detail-content .similar-grid small {
+    font-size: 9px;
+  }
+  .detail-content .review-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .detail-content .review-actions .btn-primary {
+    align-self: flex-start;
+  }
+  .detail-content .demo-note {
+    display: block;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+  .detail-modal {
+    grid-template-columns: minmax(200px, 32%) minmax(0, 1fr);
+    width: 94vw;
+  }
+  .detail-content {
+    padding: 26px 20px 24px;
+  }
+  .detail-content .hero-actions button {
+    font-size: 10px;
+    padding: 10px 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .detail-content button {
+    transition: none !important;
+  }
+}
+
+.detail-content .actor-bio {
+  padding: 10px 34px 10px 12px;
+  margin-top: 9px;
+  max-width: 100%;
+}
+.detail-content .actor-bio strong {
+  font-size: 17px;
+  line-height: 1.25;
+}
+.detail-content .actor-bio span {
+  font-size: 10px;
+  margin-top: 3px;
+}
+.detail-content .actor-bio p {
+  font-size: 11px;
+  line-height: 1.45;
+  margin-top: 6px;
+}
+.detail-content .actor-bio-close {
+  right: 6px;
+  top: 6px;
+}
+@media (max-width: 700px) {
+  .detail-content .actor-bio {
+    padding: 10px 32px 10px 11px;
+    margin-top: 8px;
+  }
+  .detail-content .actor-bio strong {
+    font-size: 16px;
+  }
+}
+
+.detail-content .cast-chip {
+  align-items: center;
+  min-width: 118px;
+  max-width: calc(25% - 8px);
+  flex: 1 1 118px;
+  text-align: center;
+  padding: 10px 8px;
+  gap: 6px;
+}
+.detail-content .cast-chip-photo,
+.detail-content .cast-chip-placeholder {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #24242b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #eee;
+  font-size: 13px;
+  font-weight: 700;
+}
+.detail-content .cast-chip strong {
+  font-size: 11px;
+  line-height: 1.3;
+}
+.detail-content .cast-chip span:not(.cast-chip-placeholder) {
+  font-size: 10px;
+}
+.detail-content .actor-profile {
+  padding: 16px;
+  margin-top: 12px;
+}
+.detail-content .actor-profile-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-right: 15px;
+}
+.detail-content .actor-profile-heading > img,
+.detail-content .actor-profile-placeholder {
+  width: 72px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 5px;
+  background: #24242b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.detail-content .actor-profile-heading > div:last-child {
+  min-width: 0;
+}
+.detail-content .actor-profile-heading strong {
+  font:
+    20px "Playfair Display",
+    serif;
+  overflow-wrap: anywhere;
+}
+.detail-content .actor-profile-heading span,
+.detail-content .actor-profile-heading small {
+  display: block;
+}
+.detail-content .actor-profile-heading small {
+  margin-top: 7px;
+  color: #a6a6b0;
+  font-size: 10px;
+}
+.detail-content .actor-filmography {
+  margin-top: 16px;
+}
+.detail-content .actor-filmography h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 10px;
+  color: #c8c8d0;
+}
+.detail-content .actor-filmography > p {
+  font-size: 11px;
+  color: #aaa;
+}
+.detail-content .actor-filmography-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+.detail-content .actor-filmography-grid button {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+  background: #ffffff06;
+  border: 1px solid #ffffff12;
+  color: #eee;
+  padding: 5px;
+}
+.detail-content .actor-filmography-grid button:hover {
+  border-color: #e5093b88;
+}
+.detail-content .actor-filmography-grid img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  background: #202027;
+}
+.detail-content .actor-filmography-grid span {
+  font-size: 10px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.detail-content .actor-filmography-grid small {
+  font-size: 9px;
+  line-height: 1.3;
+  color: #9b9ba5;
+  overflow-wrap: anywhere;
+}
+.detail-content .trailer-frame {
+  scroll-margin: 24px;
+}
+@media (max-width: 700px) {
+  .detail-content .cast-chip {
+    max-width: none;
+    flex: 1 1 calc(33.333% - 8px);
+  }
+  .detail-content .actor-filmography-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 420px) {
+  .detail-content .actor-filmography-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

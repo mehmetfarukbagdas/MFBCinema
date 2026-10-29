@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap");
+
+@import "./base.css";
+@import "./account-and-genres.css";
+@import "./catalogue.css";
+@import "./admin.css";
+@import "./hero-and-image-fallbacks.css";
+@import "./browse.css";
+@import "./title-detail.css";
+@import "./detail-artwork.css";
+@import "./account-menu.css";
+@import "./hero-and-picks.css";
+@import "./detail-modal-and-cast.css";
+@import "./header.css";
+@import "./account-pages.css";
+@import "./mobile-layout.css";
+@import "./hero-mobile.css";
+@import "./series-cards.css";
+@import "./account-dropdown-and-auth.css";
