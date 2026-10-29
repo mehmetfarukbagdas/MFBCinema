@@ -2376,7 +2376,7 @@ export const films: Film[] = [
     year: 2022,
     genre: "Fantasy",
     genres: ["Fantasy"],
-    image: "https://image.tmdb.org/t/p/w500/7V0Ebks0GgpKvQ7QbLAX5dos4.jpg",
+    image: "https://image.tmdb.org/t/p/w500/z2yahl2uefxDCl0nogcRBstwruJ.jpg",
     desc: "A widely discussed fantasy title selected for the MFB CINEMA editorial catalogue. Synopsis and metadata should be verified before public launch.",
     runtime: "Series",
     rating: 7.8,
