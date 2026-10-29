@@ -30,9 +30,64 @@ import { castBy } from "./data/cast";
 import { trailers } from "./data/trailers";
 import { safeRead } from "./utils/storage";
 import { filmGenres, genreFromPath, genreLabels, genreSlugs } from "./utils/genres";
-import { handleRemoteImageError, managedPosterPath } from "./utils/posters";
+import { managedPosterPath } from "./utils/posters";
 import { Logo } from "./components/Logo";
 import { PosterCarousel } from "./components/PosterCarousel";
+
+/**
+ * Keeps admin-table poster fallback state in React instead of mutating img.src
+ * directly. Direct DOM mutations can be overwritten during a parent rerender,
+ * which makes posters appear to disappear when the admin route is opened.
+ */
+function AdminCataloguePoster({
+  film,
+  onMissing,
+}: {
+  film: Film;
+  onMissing: (id: number) => void;
+}) {
+  const seed = films.find(
+    (item) =>
+      item.title.trim().toLocaleLowerCase() === film.title.trim().toLocaleLowerCase() &&
+      item.year === film.year,
+  );
+  const [source, setSource] = useState(film.image || "");
+  const [fallbackStage, setFallbackStage] = useState(0);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setSource(film.image || "");
+    setFallbackStage(0);
+    setFailed(false);
+  }, [film.id, film.image]);
+
+  const handleError = () => {
+    if (fallbackStage === 0 && seed?.image && seed.image !== source) {
+      setFallbackStage(1);
+      setSource(seed.image);
+      return;
+    }
+    if (fallbackStage < 2) {
+      setFallbackStage(2);
+      onMissing(film.id);
+      setSource(`/posters/${film.id}.svg`);
+      return;
+    }
+    setFailed(true);
+  };
+
+  return (
+    <img
+      className="admin-table-poster"
+      src={source || `/posters/${film.id}.svg`}
+      alt={`${film.title} poster`}
+      loading="lazy"
+      decoding="async"
+      onError={handleError}
+      style={failed ? { opacity: 0.2 } : undefined}
+    />
+  );
+}
 
 export function App() {
   const heroTouch = useRef<{ x: number; y: number } | null>(null);
@@ -1567,6 +1622,10 @@ export function App() {
           : next;
       });
   }, [account?.isAdmin]);
+  useEffect(() => {
+    if (missingPosterIds.length && !posterRepairBusy && account?.isAdmin)
+      void repairMissingPosters();
+  }, [missingPosterIds, account?.isAdmin]);
   const loadManagedUsers = async () => {
     if (!supabase || !account?.isAdmin) return;
     setUsersBusy(true);
@@ -1858,11 +1917,30 @@ export function App() {
     >
       <div className="poster-img">
         <img
-          key={f.image}
           src={f.image}
           alt={`${f.title} poster`}
           loading="lazy"
-          onError={(e) => handleRemoteImageError(e.currentTarget, `/posters/${f.id}.svg`)}
+          onError={(e) => {
+            const img = e.currentTarget as HTMLImageElement;
+            if (!img.dataset.seedFallback) {
+              const seed = films.find(
+                (item) =>
+                  item.title.trim().toLocaleLowerCase() === f.title.trim().toLocaleLowerCase() &&
+                  item.year === f.year,
+              );
+              if (seed?.image && img.src !== seed.image) {
+                img.dataset.seedFallback = "true";
+                img.src = seed.image;
+                return;
+              }
+            }
+            if (img.dataset.fallback) {
+              img.style.opacity = "0";
+              return;
+            }
+            img.dataset.fallback = "true";
+            img.src = `/posters/${f.id}.svg`;
+          }}
         />
         <span className="poster-fallback">
           <Clapperboard size={26} />
@@ -2191,16 +2269,16 @@ export function App() {
               style={{ "--hero-x": currentHero.focus, "--hero-lift": currentHero.lift } as any}
               src={currentHero.backdrop}
               alt={`${currentHero.title} featured backdrop`}
-              onError={(e) =>
-                handleRemoteImageError(
-                  e.currentTarget,
-                  `/posters/backdrop-${currentHeroFilm.id}.svg`,
-                  (img) => {
-                    img.style.opacity = "0";
-                    img.setAttribute("data-load-error", "true");
-                  },
-                )
-              }
+              onError={(e) => {
+                const img = e.currentTarget as HTMLImageElement;
+                if (img.dataset.fallback) {
+                  img.style.opacity = "0";
+                  img.setAttribute("data-load-error", "true");
+                  return;
+                }
+                img.dataset.fallback = "true";
+                img.src = `/posters/backdrop-${currentHeroFilm.id}.svg`;
+              }}
             />
             <div className="hero-shade" />
             <div className="hero-content">
@@ -3165,20 +3243,6 @@ export function App() {
                           </button>
                         )}
                       </label>
-                      <button
-                        type="button"
-                        className="btn-secondary"
-                        disabled={posterRepairBusy}
-                        onClick={() => void repairMissingPosters()}
-                      >
-                        {posterRepairBusy
-                          ? tr
-                            ? "Posterler kontrol ediliyor…"
-                            : "Checking posters…"
-                          : tr
-                            ? "Eksik posterleri onar"
-                            : "Repair missing posters"}
-                      </button>
                       {posterRepairMessage && (
                         <p className="detail-muted" role="status">
                           {posterRepairMessage}
@@ -3230,35 +3294,13 @@ export function App() {
                                 .map((f) => (
                                   <tr key={f.id}>
                                     <td>
-                                      <img
-                                        className="admin-table-poster"
-                                        src={f.image}
-                                        alt={`${f.title} poster`}
-                                        onError={(e) => {
-                                          const img = e.currentTarget as HTMLImageElement;
+                                      <AdminCataloguePoster
+                                        film={f}
+                                        onMissing={(id) =>
                                           setMissingPosterIds((prev) =>
-                                            prev.includes(f.id) ? prev : [...prev, f.id],
-                                          );
-                                          if (!img.dataset.seedFallback) {
-                                            const seed = films.find(
-                                              (item) =>
-                                                item.title.trim().toLocaleLowerCase() ===
-                                                  f.title.trim().toLocaleLowerCase() &&
-                                                item.year === f.year,
-                                            );
-                                            if (seed?.image && img.src !== seed.image) {
-                                              img.dataset.seedFallback = "true";
-                                              img.src = seed.image;
-                                              return;
-                                            }
-                                          }
-                                          if (img.dataset.fallback) {
-                                            img.style.opacity = "0.2";
-                                            return;
-                                          }
-                                          img.dataset.fallback = "true";
-                                          img.src = `/posters/${f.id}.svg`;
-                                        }}
+                                            prev.includes(id) ? prev : [...prev, id],
+                                          )
+                                        }
                                       />
                                     </td>
                                     <td>
@@ -4952,19 +4994,18 @@ export function App() {
                         }
                       >
                         <img
-                          key={f.image}
                           src={f.image}
                           loading="lazy"
                           alt=""
-                          onError={(e) =>
-                            handleRemoteImageError(
-                              e.currentTarget,
-                              `/posters/${f.id}.svg`,
-                              (el) => {
-                                el.style.opacity = "0";
-                              },
-                            )
-                          }
+                          onError={(e) => {
+                            const img = e.currentTarget as HTMLImageElement;
+                            if (img.dataset.fallback) {
+                              img.style.opacity = "0";
+                              return;
+                            }
+                            img.dataset.fallback = "true";
+                            img.src = `/posters/${f.id}.svg`;
+                          }}
                         />
                         <span>
                           <strong>{f.title}</strong>
