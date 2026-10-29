@@ -62,15 +62,23 @@ function AdminCataloguePoster({
   }, [film.id, film.image]);
 
   const handleError = () => {
+    // Try the matching seed artwork, then the title-specific local SVG, and
+    // finally a guaranteed bundled fallback for database-created IDs that do
+    // not have a matching /posters/<id>.svg file.
     if (fallbackStage === 0 && seed?.image && seed.image !== source) {
       setFallbackStage(1);
       setSource(seed.image);
       return;
     }
-    if (fallbackStage < 2) {
+    if (fallbackStage <= 1) {
       setFallbackStage(2);
       onMissing(film.id);
       setSource(`/posters/${film.id}.svg`);
+      return;
+    }
+    if (fallbackStage === 2) {
+      setFallbackStage(3);
+      setSource('/posters/backdrop-99.svg');
       return;
     }
     setFailed(true);
@@ -1922,24 +1930,31 @@ export function App() {
           loading="lazy"
           onError={(e) => {
             const img = e.currentTarget as HTMLImageElement;
-            if (!img.dataset.seedFallback) {
-              const seed = films.find(
-                (item) =>
-                  item.title.trim().toLocaleLowerCase() === f.title.trim().toLocaleLowerCase() &&
-                  item.year === f.year,
-              );
-              if (seed?.image && img.src !== seed.image) {
-                img.dataset.seedFallback = "true";
-                img.src = seed.image;
-                return;
-              }
-            }
-            if (img.dataset.fallback) {
-              img.style.opacity = "0";
+            const seed = films.find(
+              (item) =>
+                item.title.trim().toLocaleLowerCase() === f.title.trim().toLocaleLowerCase() &&
+                item.year === f.year,
+            );
+            // 1) Retry the curated seed image when a database record has a bad URL.
+            if (!img.dataset.seedFallback && seed?.image && img.src !== seed.image) {
+              img.dataset.seedFallback = "true";
+              img.src = seed.image;
               return;
             }
-            img.dataset.fallback = "true";
-            img.src = `/posters/${f.id}.svg`;
+            // 2) Try a title-specific local fallback if one exists.
+            if (!img.dataset.idFallback) {
+              img.dataset.idFallback = "true";
+              img.src = `/posters/${f.id}.svg`;
+              return;
+            }
+            // 3) Database IDs do not always have a matching local SVG. Use a
+            // bundled generic poster instead of leaving a black/empty card.
+            if (!img.dataset.genericFallback) {
+              img.dataset.genericFallback = "true";
+              img.src = "/posters/backdrop-99.svg";
+              return;
+            }
+            img.style.opacity = "0";
           }}
         />
         <span className="poster-fallback">
