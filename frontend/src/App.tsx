@@ -2605,7 +2605,7 @@ export function App() {
                   </b>
                 </span>
               </button>
-              <button className="collection-tile" onClick={() => setSelected(catalogue[0])}>
+              <button className="collection-tile" onClick={() => setSelected(catalogue.find((f) => f.title === "Dune: Part Two")!)}>
                 <img
                   src="https://image.tmdb.org/t/p/w1280/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg"
                   alt="Dune: Part Two cinematic backdrop"
@@ -2616,7 +2616,7 @@ export function App() {
                       return;
                     }
                     img.dataset.fallback = "true";
-                    img.src = `/posters/${catalogue[0].id}.svg`;
+                    img.src = `/posters/${catalogue.find((f) => f.title === "Dune: Part Two")!.id}.svg`;
                   }}
                 />
                 <span>
@@ -2638,7 +2638,7 @@ export function App() {
                   </b>
                 </span>
               </button>
-              <button className="collection-tile" onClick={() => setSelected(catalogue[3])}>
+              <button className="collection-tile" onClick={() => setSelected(catalogue.find((f) => f.title === "The Batman")!)}>
                 <img
                   src="https://image.tmdb.org/t/p/w1280/b0PlSFdDwbyK0cf5RxwDpaOJQvQ.jpg"
                   alt="The Batman cinematic backdrop"
@@ -2649,7 +2649,7 @@ export function App() {
                       return;
                     }
                     img.dataset.fallback = "true";
-                    img.src = `/posters/${catalogue[3].id}.svg`;
+                    img.src = `/posters/${catalogue.find((f) => f.title === "The Batman")!.id}.svg`;
                   }}
                 />
                 <span>
