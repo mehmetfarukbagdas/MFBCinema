@@ -612,7 +612,11 @@ export function App() {
             Array.isArray(r.genres) && r.genres.length
               ? r.genres
               : seed?.genres || [r.genre || "Drama"],
-          image: r.image_url || r.image || seed?.image || "",
+          image: /placehold\.co|placeholder|example\.com|no[-_ ]?poster/i.test(
+            String(r.image_url || r.image || ""),
+          )
+            ? seed?.image || ""
+            : r.image_url || r.image || seed?.image || "",
           desc: r.description || r.desc || seed?.desc || "",
           runtime: r.runtime || seed?.runtime || "",
           rating: Number(r.rating) || seed?.rating || 0,
@@ -1620,7 +1624,11 @@ export function App() {
   useEffect(() => {
     if (!account?.isAdmin || !catalogue.length) return;
     const placeholderIds = catalogue
-      .filter((f) => !f.image || f.image.startsWith("/posters/"))
+      .filter((f) =>
+        !f.image ||
+        f.image.startsWith("/posters/") ||
+        /placehold\.co|placeholder|example\.com|no[-_ ]?poster/i.test(f.image),
+      )
       .map((f) => f.id);
     if (placeholderIds.length)
       setMissingPosterIds((prev) => {
