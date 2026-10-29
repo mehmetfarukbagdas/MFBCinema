@@ -1867,20 +1867,11 @@ export function App() {
           loading="lazy"
           onError={(e) => {
             const img = e.currentTarget as HTMLImageElement;
-            if (!img.dataset.seedFallback) {
-              const seed = films.find(
-                (item) =>
-                  item.title.trim().toLocaleLowerCase() === f.title.trim().toLocaleLowerCase() &&
-                  item.year === f.year,
-              );
-              if (seed?.image && img.src !== seed.image) {
-                img.dataset.seedFallback = "true";
-                img.src = seed.image;
-                return;
-              }
-            }
-            if (img.dataset.fallback) {
-              img.style.opacity = "0";
+            // Avoid retry loops: when the remote poster fails, use the bundled local
+            // fallback poster immediately. This also works when the browser blocks
+            // a cross-origin image response.
+            if (img.dataset.fallback === "true") {
+              img.style.display = "none";
               return;
             }
             img.dataset.fallback = "true";
