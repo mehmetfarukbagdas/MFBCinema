@@ -1567,10 +1567,6 @@ export function App() {
           : next;
       });
   }, [account?.isAdmin]);
-  useEffect(() => {
-    if (missingPosterIds.length && !posterRepairBusy && account?.isAdmin)
-      void repairMissingPosters();
-  }, [missingPosterIds, account?.isAdmin]);
   const loadManagedUsers = async () => {
     if (!supabase || !account?.isAdmin) return;
     setUsersBusy(true);
@@ -3169,6 +3165,20 @@ export function App() {
                           </button>
                         )}
                       </label>
+                      <button
+                        type="button"
+                        className="btn-secondary"
+                        disabled={posterRepairBusy}
+                        onClick={() => void repairMissingPosters()}
+                      >
+                        {posterRepairBusy
+                          ? tr
+                            ? "Posterler kontrol ediliyor…"
+                            : "Checking posters…"
+                          : tr
+                            ? "Eksik posterleri onar"
+                            : "Repair missing posters"}
+                      </button>
                       {posterRepairMessage && (
                         <p className="detail-muted" role="status">
                           {posterRepairMessage}
