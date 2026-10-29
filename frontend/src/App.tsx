@@ -30,7 +30,7 @@ import { castBy } from "./data/cast";
 import { trailers } from "./data/trailers";
 import { safeRead } from "./utils/storage";
 import { filmGenres, genreFromPath, genreLabels, genreSlugs } from "./utils/genres";
-import { managedPosterPath } from "./utils/posters";
+import { handleRemoteImageError, managedPosterPath } from "./utils/posters";
 import { Logo } from "./components/Logo";
 import { PosterCarousel } from "./components/PosterCarousel";
 
@@ -1862,21 +1862,11 @@ export function App() {
     >
       <div className="poster-img">
         <img
+          key={f.image}
           src={f.image}
           alt={`${f.title} poster`}
           loading="lazy"
-          onError={(e) => {
-            const img = e.currentTarget as HTMLImageElement;
-            // Avoid retry loops: when the remote poster fails, use the bundled local
-            // fallback poster immediately. This also works when the browser blocks
-            // a cross-origin image response.
-            if (img.dataset.fallback === "true") {
-              img.style.display = "none";
-              return;
-            }
-            img.dataset.fallback = "true";
-            img.src = `/posters/${f.id}.svg`;
-          }}
+          onError={(e) => handleRemoteImageError(e.currentTarget, `/posters/${f.id}.svg`)}
         />
         <span className="poster-fallback">
           <Clapperboard size={26} />
@@ -2205,16 +2195,16 @@ export function App() {
               style={{ "--hero-x": currentHero.focus, "--hero-lift": currentHero.lift } as any}
               src={currentHero.backdrop}
               alt={`${currentHero.title} featured backdrop`}
-              onError={(e) => {
-                const img = e.currentTarget as HTMLImageElement;
-                if (img.dataset.fallback) {
-                  img.style.opacity = "0";
-                  img.setAttribute("data-load-error", "true");
-                  return;
-                }
-                img.dataset.fallback = "true";
-                img.src = `/posters/backdrop-${currentHeroFilm.id}.svg`;
-              }}
+              onError={(e) =>
+                handleRemoteImageError(
+                  e.currentTarget,
+                  `/posters/backdrop-${currentHeroFilm.id}.svg`,
+                  (img) => {
+                    img.style.opacity = "0";
+                    img.setAttribute("data-load-error", "true");
+                  },
+                )
+              }
             />
             <div className="hero-shade" />
             <div className="hero-content">
@@ -4952,18 +4942,19 @@ export function App() {
                         }
                       >
                         <img
+                          key={f.image}
                           src={f.image}
                           loading="lazy"
                           alt=""
-                          onError={(e) => {
-                            const img = e.currentTarget as HTMLImageElement;
-                            if (img.dataset.fallback) {
-                              img.style.opacity = "0";
-                              return;
-                            }
-                            img.dataset.fallback = "true";
-                            img.src = `/posters/${f.id}.svg`;
-                          }}
+                          onError={(e) =>
+                            handleRemoteImageError(
+                              e.currentTarget,
+                              `/posters/${f.id}.svg`,
+                              (el) => {
+                                el.style.opacity = "0";
+                              },
+                            )
+                          }
                         />
                         <span>
                           <strong>{f.title}</strong>
